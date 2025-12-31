@@ -1,0 +1,168 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import TemplateCard from '../components/gallery/TemplateCard.astro';
+import { getAllTemplates, getCategories } from '../resources/config/templates';
+import type { TemplateConfig } from '../resources/config/templates';
+
+const allTemplates = getAllTemplates();
+const categories = getCategories();
+
+// Category labels in Spanish
+const categoryLabels: Record<TemplateConfig['category'], string> = {
+  elegant: 'Elegante',
+  fun: 'Divertido',
+  minimal: 'Minimalista',
+  retro: 'Retro',
+  modern: 'Moderno',
+  classic: 'Clásico',
+  romantic: 'Romántico',
+  bold: 'Audaz',
+};
+---
+
+<MainLayout
+  title="Galería de Plantillas - Generador de Tarjetas de Cumpleaños"
+  description="Explora nuestra colección de plantillas prediseñadas para crear tarjetas de cumpleaños únicas y personalizadas"
+>
+  <div class="w-full min-h-screen py-8 px-4">
+    {/* Header */}
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        Galería de Plantillas
+      </h1>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+        Elige entre 8 diseños predefinidos o crea tu propia tarjeta personalizada desde cero
+      </p>
+      <a
+        href="/questions"
+        class="inline-block bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-pink-300"
+      >
+        Crear desde cero
+      </a>
+    </div>
+
+    {/* Filters */}
+    <div class="mb-8">
+      <div class="flex flex-wrap justify-center gap-3">
+        <button
+          data-category="all"
+          class="filter-btn px-5 py-2 rounded-full font-medium transition-all duration-200 bg-pink-500 text-white hover:bg-pink-600 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-pink-300"
+          aria-label="Mostrar todas las plantillas"
+        >
+          Todas (8)
+        </button>
+        {categories.map((category) => (
+          <button
+            data-category={category}
+            class="filter-btn px-5 py-2 rounded-full font-medium transition-all duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-gray-300"
+            aria-label={`Filtrar por ${categoryLabels[category]}`}
+          >
+            {categoryLabels[category]}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Gallery Grid */}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12 auto-rows-fr">
+      {allTemplates.map((template) => (
+        <div
+          class="template-item h-full"
+          data-category={template.category}
+        >
+          <TemplateCard template={template} />
+        </div>
+      ))}
+    </div>
+
+    {/* No Results Message */}
+    <div id="no-results" class="hidden text-center py-12">
+      <p class="text-xl text-gray-500 mb-4">
+        No se encontraron plantillas en esta categoría
+      </p>
+      <button
+        onclick="filterTemplates('all')"
+        class="text-pink-500 hover:text-pink-600 font-semibold underline"
+      >
+        Ver todas las plantillas
+      </button>
+    </div>
+  </div>
+</MainLayout>
+
+<script>
+  // Client-side filtering
+  function filterTemplates(category: string) {
+    const allItems = document.querySelectorAll('.template-item');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const noResults = document.getElementById('no-results');
+    let visibleCount = 0;
+
+    // Update button states
+    filterButtons.forEach((btn) => {
+      const btnCategory = btn.getAttribute('data-category');
+      if (btnCategory === category) {
+        btn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+        btn.classList.add('bg-pink-500', 'text-white', 'hover:bg-pink-600');
+      } else {
+        btn.classList.remove('bg-pink-500', 'text-white', 'hover:bg-pink-600');
+        btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+      }
+    });
+
+    // Filter items
+    allItems.forEach((item) => {
+      const itemCategory = item.getAttribute('data-category');
+      if (category === 'all' || itemCategory === category) {
+        item.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+
+    // Show/hide no results message
+    if (noResults) {
+      if (visibleCount === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    }
+  }
+
+  // Attach event listeners
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const category = (e.target as HTMLButtonElement).getAttribute('data-category') || 'all';
+        filterTemplates(category);
+      });
+    });
+  });
+
+  // Make filterTemplates available globally for onclick handler
+  (window as any).filterTemplates = filterTemplates;
+</script>
+
+<style>
+  .template-item {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .template-item.hidden {
+    display: none;
+  }
+</style>

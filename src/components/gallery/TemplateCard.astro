@@ -1,0 +1,115 @@
+---
+import type { TemplateConfig } from '../../resources/config/templates';
+
+interface Props {
+  template: TemplateConfig;
+}
+
+const { template } = Astro.props;
+
+// Parse color palette to get background class
+const bgClass = `bg-${template.config.colorPalette}`;
+
+// Category icons
+const categoryIcons: Record<TemplateConfig['category'], string> = {
+  elegant: '✨',
+  fun: '🎉',
+  minimal: '⬜',
+  retro: '🕹️',
+  modern: '🚀',
+  classic: '📜',
+  romantic: '💕',
+  bold: '⚡',
+};
+
+// Category labels in Spanish
+const categoryLabels: Record<TemplateConfig['category'], string> = {
+  elegant: 'Elegante',
+  fun: 'Divertido',
+  minimal: 'Minimalista',
+  retro: 'Retro',
+  modern: 'Moderno',
+  classic: 'Clásico',
+  romantic: 'Romántico',
+  bold: 'Audaz',
+};
+---
+
+<article
+  class="group relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-gray-100 hover:border-gray-300 flex flex-col h-full"
+  role="article"
+  aria-label={`Plantilla ${template.name}`}
+>
+  {/* Preview Image */}
+  <div class="relative aspect-video overflow-hidden bg-gray-50">
+    {/* Color preview placeholder (until we have actual images) */}
+    <div class={`w-full h-full ${bgClass} flex items-center justify-center relative`}>
+      <div class="absolute inset-0 bg-gradient-to-br from-transparent to-black/20 z-0"></div>
+      <div class="relative z-10 text-center p-6 pt-16">
+        <p class="text-white text-3xl font-bold mb-2 drop-shadow-lg">
+          ¡Feliz Cumpleaños!
+        </p>
+        <p class="text-white/90 text-sm drop-shadow">Vista previa</p>
+      </div>
+    </div>
+
+    {/* Category Badge */}
+    <span
+      class="absolute top-3 left-3 z-30 px-3 py-1 bg-white/95 backdrop-blur-sm rounded-full text-xs font-medium flex items-center gap-1 shadow-md"
+    >
+      <span aria-hidden="true">{categoryIcons[template.category]}</span>
+      <span>{categoryLabels[template.category]}</span>
+    </span>
+
+    {/* Animation Badge */}
+    {template.config.animations.enabled && (
+      <span
+        class="absolute top-3 right-3 z-30 px-2 py-1 bg-pink-500 text-white rounded-full text-xs font-medium shadow-md"
+        title={`Animación: ${template.config.animations.type}`}
+      >
+        🎆
+      </span>
+    )}
+  </div>
+
+  {/* Card Content */}
+  <div class="p-5 flex flex-col flex-1">
+    <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
+      {template.name}
+    </h3>
+    <p class="text-sm text-gray-600 mb-4 line-clamp-2 min-h-[2.5rem]">
+      {template.description}
+    </p>
+
+    {/* Template Details */}
+    <div class="flex flex-wrap gap-2 mb-4 text-xs text-gray-500 flex-grow">
+      <span class="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
+        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+          <circle cx="10" cy="10" r="10" />
+        </svg>
+        {template.config.colorPalette.split('-')[0]}
+      </span>
+      <span class="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        {template.config.font}
+      </span>
+      <span class="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+        </svg>
+        {template.config.layout}
+      </span>
+    </div>
+
+    {/* Use Template Button */}
+    <a
+      href={`/questions?template=${template.id}`}
+      class={`block w-full text-center ${bgClass} hover:opacity-90 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-pink-300`}
+      aria-label={`Usar plantilla ${template.name}`}
+    >
+      Usar esta plantilla
+    </a>
+  </div>
+</article>

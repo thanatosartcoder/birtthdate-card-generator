@@ -1,79 +1,142 @@
 import type { Color, FormStep } from "../../resources/types/form-step.d";
 
-export const colors: Color[] = [{
-  name: "Rosado",
-  variants: ["500"],
-  value: "pink",
-}, {
-  name: "Rojo",
-  value: "red",
-  variants: ["500"],
-}, {
-  name: "Verde",
-  value: "green",
-  variants: ["500"],
-}, {
-  name: "Azul",
-  value: "sky",
-  variants: ["500"],
-}, {
-  name: "Fuchsia",
-  value: "fuchsia",
-  variants: ["500"],
-}, {
-  name: "Amber",
-  value: "amber",
-  variants: ["500"],
-}, {
-  name: "Yellow",
-  value: "yellow",
-  variants: ["500"],
-}];
+export const colors: Color[] = [
+  {
+    name: "Rosa",
+    value: "pink",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Rojo",
+    value: "red",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Naranja",
+    value: "orange",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Ámbar",
+    value: "amber",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Amarillo",
+    value: "yellow",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Lima",
+    value: "lime",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Verde",
+    value: "green",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Esmeralda",
+    value: "emerald",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Turquesa",
+    value: "teal",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Cian",
+    value: "cyan",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Cielo",
+    value: "sky",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Azul",
+    value: "blue",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Índigo",
+    value: "indigo",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Violeta",
+    value: "violet",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Púrpura",
+    value: "purple",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+  {
+    name: "Fucsia",
+    value: "fuchsia",
+    variants: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  },
+];
 export const steps: FormStep[] = [
   {
-    question: "¿Cuál es el nombre del cumpleañer@?",
-    type: "text",
-    answer: "",
-    input: {
-      name: "names",
-      placeholder: "Nombre de la persona",
-    },
+    question: "Información sobre el cumpleañer@",
+    type: "multi-field",
+    name: "personal-info",
+    fields: [
+      {
+        name: "names",
+        label: "¿Cuál es el nombre del cumpleañer@?",
+        type: "text",
+        placeholder: "Nombre de la persona",
+      },
+      {
+        name: "url",
+        label: "¿Tienes una imagen de esa persona?",
+        type: "text",
+        placeholder: "Url de la imagen",
+      },
+    ],
   },
   {
-    question: "¿Qué color le gusta?",
-    type: "selectable",
-    name: "color",
-    options: colors.map((color) => ({
-      label: color.name,
-      background: `bg-${color.value}-${color.variants[0]}`,
-      value: `bg-${color.value}-${color.variants[0]}`,
-    })),
+    question: "Diseño de la tarjeta",
+    type: "multi-field",
+    name: "design",
+    fields: [
+      {
+        name: "color",
+        label: "¿Qué color le gusta?",
+        type: "colorpicker",
+        showVariants: true,
+      },
+      {
+        name: "birthday",
+        label: "Fecha del cumpleaños",
+        type: "date",
+      },
+    ],
   },
   {
-    question: "¿Tienes una imagen de esa persona?",
-    type: "text",
-    answer: "",
-    input: {
-      name: "url",
-      placeholder: "Url de la imagen",
-    },
-  },
-  {
-    question: "Dejale un mensaje de cariño para ese ser especial",
-    type: "textarea",
-    name: "message",
-    placeholder: "Mensaje",
-  },
-  {
-    question: "Deja un mensaje que salga previo al mensaje de cumpleaños",
-    type: "textarea",
-    name: "premessage",
-    placeholder: "Premensaje de cumpleaños",
-  },
-  {
-    question: "Fecha del cumpleaños",
-    type: "date",
-    name: "birthday",
-    placeholder: "Fecha de cumpleaños",
+    question: "Mensajes personalizados",
+    type: "multi-field",
+    name: "messages",
+    fields: [
+      {
+        name: "premessage",
+        label: "Mensaje que salga antes del cumpleaños",
+        type: "textarea",
+        placeholder: "Premensaje de cumpleaños",
+      },
+      {
+        name: "message",
+        label: "Mensaje de cariño para ese ser especial",
+        type: "textarea",
+        placeholder: "Mensaje de cumpleaños",
+      },
+    ],
   },
 ];

@@ -52,4 +52,18 @@ export type FormStep =
     type: "date";
     name: string;
     placeholder: string;
+  } | {
+    type: "colorpicker";
+    name: string;
+    showVariants?: boolean;
+  } | {
+    type: "multi-field";
+    name: string;
+    fields: {
+      name: string;
+      label: string;
+      type: "text" | "textarea" | "date" | "colorpicker";
+      placeholder?: string;
+      showVariants?: boolean;
+    }[];
   });

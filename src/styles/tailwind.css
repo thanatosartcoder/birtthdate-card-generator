@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* Safelist de colores dinámicos para el generador de tarjetas */
+/* Colores: pink, red, green, sky, fuchsia, amber, yellow - variante 500 */
+/* Utilidades: bg, via, text, border */
+@layer utilities {
+  /* Background colors */
+  .bg-pink-500 { background-color: #ec4899; }
+  .bg-red-500 { background-color: #ef4444; }
+  .bg-green-500 { background-color: #22c55e; }
+  .bg-sky-500 { background-color: #0ea5e9; }
+  .bg-fuchsia-500 { background-color: #d946ef; }
+  .bg-amber-500 { background-color: #f59e0b; }
+  .bg-yellow-500 { background-color: #eab308; }
+
+  /* Gradient via colors */
+  .via-pink-500 { --tw-gradient-stops: var(--tw-gradient-from), #ec4899 var(--tw-gradient-via-position), var(--tw-gradient-to); }
+  .via-red-500 { --tw-gradient-stops: var(--tw-gradient-from), #ef4444 var(--tw-gradient-via-position), var(--tw-gradient-to); }
+  .via-green-500 { --tw-gradient-stops: var(--tw-gradient-from), #22c55e var(--tw-gradient-via-position), var(--tw-gradient-to); }
+  .via-sky-500 { --tw-gradient-stops: var(--tw-gradient-from), #0ea5e9 var(--tw-gradient-via-position), var(--tw-gradient-to); }
+  .via-fuchsia-500 { --tw-gradient-stops: var(--tw-gradient-from), #d946ef var(--tw-gradient-via-position), var(--tw-gradient-to); }
+  .via-amber-500 { --tw-gradient-stops: var(--tw-gradient-from), #f59e0b var(--tw-gradient-via-position), var(--tw-gradient-to); }
+  .via-yellow-500 { --tw-gradient-stops: var(--tw-gradient-from), #eab308 var(--tw-gradient-via-position), var(--tw-gradient-to); }
+
+  /* Text colors */
+  .text-pink-500 { color: #ec4899; }
+  .text-red-500 { color: #ef4444; }
+  .text-green-500 { color: #22c55e; }
+  .text-sky-500 { color: #0ea5e9; }
+  .text-fuchsia-500 { color: #d946ef; }
+  .text-amber-500 { color: #f59e0b; }
+  .text-yellow-500 { color: #eab308; }
+
+  /* Border colors */
+  .border-pink-500 { border-color: #ec4899; }
+  .border-red-500 { border-color: #ef4444; }
+  .border-green-500 { border-color: #22c55e; }
+  .border-sky-500 { border-color: #0ea5e9; }
+  .border-fuchsia-500 { border-color: #d946ef; }
+  .border-amber-500 { border-color: #f59e0b; }
+  .border-yellow-500 { border-color: #eab308; }
+
+  /* Hover variants */
+  .hover\:bg-pink-500:hover { background-color: #ec4899; }
+  .hover\:bg-red-500:hover { background-color: #ef4444; }
+  .hover\:bg-green-500:hover { background-color: #22c55e; }
+  .hover\:bg-sky-500:hover { background-color: #0ea5e9; }
+  .hover\:bg-fuchsia-500:hover { background-color: #d946ef; }
+  .hover\:bg-amber-500:hover { background-color: #f59e0b; }
+  .hover\:bg-yellow-500:hover { background-color: #eab308; }
+
+  .hover\:text-white:hover { color: #fff; }
+}
+
+/* Animaciones personalizadas de @midudev/tailwind-animations */
+@layer utilities {
+  /* Fade in */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .animate-delay-500 {
+    animation-delay: 0.5s;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

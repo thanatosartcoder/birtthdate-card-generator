@@ -4,41 +4,39 @@ import { decrypt } from "../resources/utils/crypto";
 import BirthDayCard from "../components/BirthDayCard.astro";
 import MainLayout from "../layouts/MainLayout.astro";
 import { format } from "date-fns";
-import { calcularDiferencia } from "../resources/utils/date";
+
 const token = Astro.url.searchParams.get("token")! || "";
 
 const decryptData = token ? decrypt(token, import.meta.env.SECRET_KEY) : "";
 
 const data = decryptData ? JSON.parse(decryptData) : {};
 
-const { color, birthday, message, names, url,...rest }: BirthdayData = data;
+console.log("Data of preview", data);
+
+const { color, birthday, message, names, url, ...rest }: BirthdayData = data;
 
 const { bgColor, textColor, viaColor } = color ?? {};
 
 const birthDate = new Date(`${birthday} 00:00:00`);
+const current = new Date();
 
-console.log(birthDate)
+// Check if today is the birthday
+const isMonth = current.getMonth() === birthDate.getMonth();
+const isDay = current.getDate() === birthDate.getDate();
+const isBirthdayDay = isMonth && isDay;
 
-const newDate = new Date();
-
-const dateToCompare = new Date(
-  newDate.getFullYear(),
+// Calculate target date for countdown (next birthday)
+let targetDate = new Date(
+  current.getFullYear(),
   birthDate.getMonth(),
-  birthDate.getDate(),
+  birthDate.getDate()
 );
 
-const date = format(dateToCompare, "yyyy-MM-dd")
-console.log(date)
-const primaryDate = date.split(" ");
+if (!isBirthdayDay && targetDate.getTime() < current.getTime()) {
+  targetDate.setFullYear(current.getFullYear() + 1);
+}
 
-const dateProps = new Date(primaryDate[0]);
-const current = new Date();
-// Restar las fechas
-console.log(current, dateProps)
-const difference = calcularDiferencia(current.getTime(), dateProps.getTime())
-console.log(difference);
-const isBirthdayDay = Number(difference.dataClean.days) <= 0
-console.log(isBirthdayDay)
+const date = format(targetDate, "yyyy-MM-dd");
 ---
 
 <MainLayout
