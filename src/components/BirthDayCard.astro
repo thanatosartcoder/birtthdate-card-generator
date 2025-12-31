@@ -64,7 +64,7 @@ const messageFontSize = getFontSize(message);
 >
   <FloatingHearts color={textColor} />
   {
-    secretMessage && (
+    secretMessage && isBirthdayDay && (
       <SecretMessageModal
         secretMessage={secretMessage}
         isBirthdayDay={isBirthdayDay}
