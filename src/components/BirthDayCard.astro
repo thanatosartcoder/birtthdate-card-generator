@@ -5,6 +5,13 @@ import { calcularDiferencia } from "../resources/utils/date";
 import Chronometer from "./react/Chronometer";
 import FancyLine1 from "./FancyLine1.astro";
 import FireworksConfetti from "./react/FireworksConfetti";
+import TypewriterMessage from "./react/TypewriterMessage";
+import CalendarButton from "./react/CalendarButton";
+import SecretMessageModal from "./react/SecretMessageModal";
+import AudioPlayer from "./react/AudioPlayer";
+import DownloadButton from "./react/DownloadButton";
+import FloatingHearts from "./FloatingHearts.astro";
+
 type Props = {
   date: string;
   color?: string;
@@ -14,6 +21,7 @@ type Props = {
   url: string;
   isBirthdayDay?: boolean;
   premessage?: string;
+  secretMessage?: string;
 };
 
 const {
@@ -25,21 +33,47 @@ const {
   url,
   isBirthdayDay = false,
   premessage,
+  secretMessage,
 } = Astro.props;
 
 const viaColor = color;
 let textClasses =
-  "name font-bold text-3xl md:text-5xl transition-all duration-300 block bg-clip-text text-transparent bg-gradient-to-r from-black from-[20%]";
-textClasses += "via-[40%] to-black to-[80%] " + color;
+  "name font-bold text-3xl md:text-5xl transition-all duration-300 block bg-clip-text text-transparent bg-gradient-to-r from-black via-zinc-400 to-black " +
+  color;
 
 const colorClean = textColor.replace("text-", "");
 const borderButton = `border-${colorClean}`;
 const buttonClasses = `hover:bg-${colorClean} hover:text-white`;
+
+const getFontSize = (text: string) => {
+  if (!text) return "text-6xl md:text-8xl";
+  if (text.length > 50) return "text-4xl md:text-5xl";
+  if (text.length > 25) return "text-5xl md:text-6xl";
+  return "text-6xl md:text-8xl";
+};
+
+const premessageFontSize = getFontSize(
+  premessage ?? `A la espera de tu cumpleaños, ${name}`
+);
+const messageFontSize = getFontSize(message);
 ---
 
 <div
-  class={`h-full w-full flex flex-col justify-center md:pt-11 items-center gap-5 `}
+  id="card-capture"
+  class={`h-full w-full flex flex-col justify-center md:pt-11 items-center gap-5 relative`}
 >
+  <FloatingHearts color={textColor} />
+  {
+    secretMessage && (
+      <SecretMessageModal
+        secretMessage={secretMessage}
+        isBirthdayDay={isBirthdayDay}
+        color={`border-${colorClean} text-${colorClean}`}
+        client:load
+      />
+    )
+  }
+  <AudioPlayer color={`border-${colorClean} text-${colorClean}`} client:load />
   <FancyLine1 width={400} height={50} classes={`${textColor}`} />
 
   {
@@ -49,67 +83,107 @@ const buttonClasses = `hover:bg-${colorClean} hover:text-white`;
       <FireworksConfetti client:only />
     )
   }
-  <div class="flex items-center">
-    <FancyLine1
-      width={400}
-      height={50}
-      classes={`${textColor} rotate-[270deg] max-h-[100%] max-w-[100%] hidden md:flex `}
-    />
+
+  <div class="flex items-center w-full justify-center relative">
     <div
-      class="flex flex-col-reverse items-center md:flex-row gap-1 md:gap-10 justify-center flex-1"
+      class="hidden md:flex justify-center items-center shrink-0 absolute left-0 md:left-4 top-1/2 -translate-y-1/2 -translate-x-1/2"
     >
-      <div class="size-[256px] aspect-square rounded overflow-hidden">
+      <FancyLine1
+        width={400}
+        height={50}
+        classes={`${textColor} rotate-[270deg] max-h-[100%] max-w-none opacity-80`}
+      />
+    </div>
+    <div
+      class="flex flex-col-reverse items-center md:flex-row gap-1 md:gap-10 justify-center flex-1 min-w-0 z-10 px-8 md:px-24 w-full"
+    >
+      <div
+        class="size-[256px] aspect-square rounded overflow-hidden animate-float drop-shadow-xl shrink-0"
+      >
         <img
           src={url ?? localProfilemage.src}
           alt={`Foto cumpleaños de ${name}`}
-          class="w-full h-full rounded-xl image-birthday aspect-square overflow-hidden animate-fade-in"
+          class:list={[
+            "w-full h-full rounded-xl image-birthday aspect-square overflow-hidden animate-fade-in object-cover border-4 border-white/50",
+            { grayscale: !isBirthdayDay },
+          ]}
         />
       </div>
       <div
-        class="flex flex-col items-center md:justify-center md:items-end md:h-full"
+        class="flex flex-col items-center md:justify-center md:items-start md:h-full flex-1 w-full"
       >
         {
           isBirthdayDay ? (
-            <div>
-              <span class="text-2xl md:text-4xl text-center md:text-left w-full">
+            <div class="w-full">
+              <span class="text-2xl md:text-4xl text-center md:text-left w-full font-heading block">
                 Feliz cumpleaños,
               </span>
-              <h1 class={textClasses}>{name}</h1>
+              <h1
+                class={`${textClasses} font-heading text-6xl md:text-8xl leading-relaxed py-4 px-2 text-center md:text-left`}
+              >
+                {name}
+              </h1>
             </div>
           ) : (
-            <span
-              class:list={[
+            <TypewriterMessage
+              client:visible
+              speed={150}
+              className={[
                 textClasses,
-                "max-w-[30ch] text-center text-pretty mb-4",
-              ]}
-            >
-              {premessage ?? `A la espera de tu cumpleaños, ${name}`}
-            </span>
+                "w-full text-center md:text-left text-pretty mb-4 font-heading leading-relaxed py-4 px-2",
+                premessageFontSize,
+              ].join(" ")}
+              message={premessage ?? `A la espera de tu cumpleaños, ${name}`}
+            />
           )
         }
       </div>
     </div>
-    <FancyLine1
-      height={50}
-      classes={`rotate-90 ${textColor} max-w-[100%] hidden md:flex`}
-      class:list={"rotate-90"}
-    />
+    <div
+      class="hidden md:flex justify-center items-center shrink-0 absolute right-0 md:right-4 top-1/2 -translate-y-1/2 translate-x-1/2"
+    >
+      <FancyLine1
+        height={50}
+        width={400}
+        classes={`rotate-90 ${textColor} max-w-none opacity-80`}
+      />
+    </div>
   </div>
 
   {
     isBirthdayDay && (
       <div class="max-w-[50ch] md:max-w-[75ch] justify-center w-full p-4 md:p-0 animate-fade-in-up animate-delay-500">
-        <p class="text-slate-900 text-md md:text-2xl text-pretty ">{message}</p>
+        <TypewriterMessage
+          client:visible
+          message={message}
+          className={`text-slate-900 text-center text-pretty font-medium min-h-12 ${messageFontSize}`}
+        />
       </div>
     )
   }
 
-  <div class="w-full justify-center flex">
+  <div
+    class="fixed bottom-0 left-0 w-full p-4 bg-white/80 backdrop-blur-md md:static md:w-full md:bg-transparent md:p-0 flex justify-center flex-wrap gap-4 items-center z-50 border-t md:border-t-0 shadow-lg md:shadow-none"
+  >
+    <CalendarButton
+      birthday={date}
+      names={name}
+      client:visible
+      className={`border ${borderButton} ${textColor} ${buttonClasses} hover:scale-105 active:scale-95`}
+    />
+
+    <DownloadButton
+      elementId="card-capture"
+      client:visible
+      className={`border ${borderButton} ${textColor} ${buttonClasses}`}
+    />
+
     <button
       id="shareButton"
       class:list={[
-        " h-10 p-4 text-capitalize flex items-center gap-2 justify-center bg-transparent border rounded-lg",
+        "bg-white font-medium rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center gap-2 shadow-sm transition-all hover:scale-105 active:scale-95 animate-pulse",
         borderButton,
+        "border",
         textColor,
         buttonClasses,
       ]}
@@ -125,7 +199,8 @@ const buttonClasses = `hover:bg-${colorClean} hover:text-white`;
         <path
           d="M352 224c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96c0 4 .2 8 .7 11.9l-94.1 47C145.4 170.2 121.9 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.9 0 49.4-10.2 66.6-26.9l94.1 47c-.5 3.9-.7 7.8-.7 11.9c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-25.9 0-49.4 10.2-66.6 26.9l-94.1-47c.5-3.9 .7-7.8 .7-11.9s-.2-8-.7-11.9l94.1-47C302.6 213.8 326.1 224 352 224z"
         ></path></svg
-      > Compartir
+      >
+      <span class="hidden md:inline">Compartir</span>
     </button>
   </div>
 </div>
@@ -156,25 +231,21 @@ const buttonClasses = `hover:bg-${colorClean} hover:text-white`;
     animation: shine 3s linear infinite;
     background-size: 200% auto;
     background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   @keyframes shine {
+    from {
+      background-position: 0% center;
+    }
     to {
       background-position: 200% center;
     }
   }
 
   .image-birthday {
-    filter: grayscale(1);
     transition: filter 0.3s ease-in;
-    animation: grayscale 3s linear 1 both;
-    animation-delay: 1s;
-  }
-
-  @keyframes grayscale {
-    to {
-      filter: grayscale(0);
-    }
   }
 </style>
 

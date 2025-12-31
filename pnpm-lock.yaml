@@ -20,7 +20,13 @@ importers:
       '@fontsource/bebas-neue':
         specifier: ^5.2.7
         version: 5.2.7
+      '@fontsource/dancing-script':
+        specifier: ^5.2.8
+        version: 5.2.8
       '@fontsource/metrophobic':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/outfit':
         specifier: ^5.2.8
         version: 5.2.8
       '@fontsource/press-start-2p':
@@ -47,6 +53,12 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      html-to-image:
+        specifier: ^1.11.13
+        version: 1.11.13
+      lottie-web:
+        specifier: ^5.13.0
+        version: 5.13.0
       react:
         specifier: ^19.2.3
         version: 19.2.3
@@ -406,8 +418,14 @@ packages:
   '@fontsource/bebas-neue@5.2.7':
     resolution: {integrity: sha512-DsmBrmq55d9BCU0mt4DT4RZDdH8vhWRKEUOfbuNB1EEjMuwbtFvM8N+3gIlkYSFbsb10P8Q19BV5OdpMu2h0fA==}
 
+  '@fontsource/dancing-script@5.2.8':
+    resolution: {integrity: sha512-zHVVgIQ5/rAIM0VVp1QMsqvJm9INHO5/C82E9rHT6NlabjaPTFYn8wl9lT4vPWizfB0TublGQM1999kfdA+XFA==}
+
   '@fontsource/metrophobic@5.2.8':
     resolution: {integrity: sha512-yigjYtjd2ScRZ/d7qisIBziYEuux9aWMoGsYU1FrLAcKFizyvOO/hfewvpbTL3OoxaHrDX3kOr15WcCm4UGUPg==}
+
+  '@fontsource/outfit@5.2.8':
+    resolution: {integrity: sha512-rXC6g0MqD7cOBjht0bMqc43qM6lRqDLML9KXsmg9uykz0wLQhy8Z/ajrMG6iyoT3NJR+MYgU+OEHp7uHoTb+Yw==}
 
   '@fontsource/press-start-2p@5.2.7':
     resolution: {integrity: sha512-ezSxYRchANoteja170ZHh2Tt4oejmVEvX42VFPOVVvERSZ68pcuZFjbhHfrK/sNjYmaGg656y7B3431ojO9PCQ==}
@@ -1590,6 +1608,9 @@ packages:
   html-escaper@3.0.3:
     resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
 
+  html-to-image@1.11.13:
+    resolution: {integrity: sha512-cuOPoI7WApyhBElTTb9oqsawRvZ0rHhaHwghRLlTuffoD1B2aDemlCruLeZrUIIdvG7gs9xeELEPm6PhuASqrg==}
+
   html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
 
@@ -1766,6 +1787,9 @@ packages:
 
   longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
+
+  lottie-web@5.13.0:
+    resolution: {integrity: sha512-+gfBXl6sxXMPe8tKQm7qzLnUy5DUPJPKIyRHwtpCpyUEYjHYRJC/5gjUvdkuO2c3JllrPtHXH5UJJK8LRYl5yQ==}
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
@@ -3136,7 +3160,11 @@ snapshots:
 
   '@fontsource/bebas-neue@5.2.7': {}
 
+  '@fontsource/dancing-script@5.2.8': {}
+
   '@fontsource/metrophobic@5.2.8': {}
+
+  '@fontsource/outfit@5.2.8': {}
 
   '@fontsource/press-start-2p@5.2.7': {}
 
@@ -4457,6 +4485,8 @@ snapshots:
 
   html-escaper@3.0.3: {}
 
+  html-to-image@1.11.13: {}
+
   html-void-elements@3.0.0: {}
 
   http-cache-semantics@4.2.0: {}
@@ -4583,6 +4613,8 @@ snapshots:
   lodash@4.17.21: {}
 
   longest-streak@3.1.0: {}
+
+  lottie-web@5.13.0: {}
 
   lru-cache@10.4.3: {}
 

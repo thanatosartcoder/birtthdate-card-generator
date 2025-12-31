@@ -137,6 +137,13 @@ export const steps: FormStep[] = [
         type: "textarea",
         placeholder: "Mensaje de cumpleaños",
       },
+      {
+        name: "secretMessage",
+        label: "Mensaje secreto (opcional)",
+        type: "textarea",
+        placeholder:
+          "Escribe algo que solo verá al hacer clic en un regalo sorpresa...",
+      },
     ],
   },
 ];

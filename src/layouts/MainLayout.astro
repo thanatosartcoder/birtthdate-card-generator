@@ -8,6 +8,9 @@ type Props = {
 import BackgroundCircle from "../components/react/BackgroundCircle";
 import "@fontsource/bebas-neue";
 import "@fontsource/press-start-2p";
+import "@fontsource/dancing-script";
+import "@fontsource/dancing-script/700.css";
+import "@fontsource/outfit";
 import "../styles/tailwind-colors.css";
 
 const {
@@ -62,12 +65,41 @@ console.log("Url", url);
   </body>
 
   <style is:global define:vars={{ color }}>
+    :root {
+      --font-heading: "Dancing Script", cursive;
+      --font-body: "Outfit", sans-serif;
+    }
+
     * {
-      font-family: "Bebas Neue", sans-serif;
+      font-family: var(--font-body);
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-heading {
+      font-family: var(--font-heading);
     }
 
     .text-game {
-      font-family: "Press Start 2P", system-ui;
+      font-family:
+        "Outfit", sans-serif; /* Reemplazamos la pixelada por Outfit para los números */
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
     }
   </style>
 </html>
