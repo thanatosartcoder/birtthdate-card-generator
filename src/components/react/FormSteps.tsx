@@ -13,13 +13,49 @@ interface Props {
   step: number;
   steps: FormStep[];
   token: string;
+  initialData?: any;
 }
 
-const FormSteps: React.FC<Props> = ({ step, steps, token }) => {
+const FormSteps: React.FC<Props> = ({
+  step,
+  steps,
+  token,
+  initialData = {},
+}) => {
   const currentStep = steps[step];
-  const [selectedItem, setSelectedItem] = useState<string>("");
+
+  // Initialize from initialData if available
+  const [selectedItem, setSelectedItem] = useState<string>(() => {
+    if (currentStep.type === "multi-field") return "";
+
+    const name =
+      currentStep.type === "text" ? currentStep.input.name : currentStep.name;
+    const initialValue = initialData[name];
+
+    if (
+      currentStep.type === "colorpicker" &&
+      typeof initialValue === "object"
+    ) {
+      return initialValue.bgColor || "bg-pink-500";
+    }
+
+    return initialValue || "";
+  });
+
   const [selectedItems, setSelectedItems] = useState<Record<string, string>>(
-    {}
+    () => {
+      const items: Record<string, string> = { ...initialData };
+
+      // Process complex objects (like color) into strings for form inputs
+      Object.keys(items).forEach((key) => {
+        const val = items[key] as any;
+        if (typeof val === "object" && val !== null) {
+          if (val.bgColor) items[key] = val.bgColor;
+        }
+      });
+
+      return items;
+    }
   );
 
   const handleSubmit = async (

@@ -1,0 +1,41 @@
+---
+import FormSteps from "../../components/react/FormSteps";
+import MainLayout from "../../layouts/MainLayout.astro";
+import { decrypt, encrypt } from "../../resources/utils/crypto";
+import { steps } from "../../resources/lib/data";
+
+const { token: inputToken } = Astro.params;
+
+if (!inputToken) {
+  return Astro.redirect("/");
+}
+
+// Decrypt to verify and get data
+const decryptedData = decrypt(inputToken, import.meta.env.SECRET_KEY);
+
+if (!decryptedData) {
+  return Astro.redirect("/");
+}
+
+const data = JSON.parse(decryptedData);
+
+// Reset step to 0 for editing
+const editData = { ...data, step: 0 };
+const editToken = encrypt(JSON.stringify(editData), import.meta.env.SECRET_KEY);
+---
+
+<MainLayout>
+  <div class="text-center mb-6">
+    <h2 class="text-2xl font-heading text-pink-600">Editando tu tarjeta</h2>
+    <p class="text-sm text-gray-500">
+      Modifica los campos que desees y vuelve a generar la tarjeta.
+    </p>
+  </div>
+  <FormSteps
+    client:load
+    step={0}
+    steps={steps}
+    token={editToken}
+    initialData={data}
+  />
+</MainLayout>

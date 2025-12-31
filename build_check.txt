@@ -1,0 +1,113 @@
+﻿
+> generative-birthday@0.0.1 astro C:\Users\penar\Documents\Project\birtthdate-card-generator
+> astro "check"
+
+[2m11:59:18[22m [34m[content][39m Syncing content
+[2m11:59:18[22m [34m[content][39m Synced content
+[2m11:59:18[22m [34m[types][39m Generated [2m110ms[22m
+[2m11:59:18[22m [34m[check][39m Getting diagnostics for Astro files in C:\Users\penar\Documents\Project\birtthdate-card-generator...
+[96msrc/components/BirthDayCard.astro[0m:[93m39[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'viaColor' is declared but its value is never read.
+
+[7m39[0m const viaColor = color;
+[7m  [0m [93m      ~~~~~~~~[0m
+[96msrc/components/BirthDayCard.astro[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'calcularDiferencia' is declared but its value is never read.
+
+[7m4[0m import { calcularDiferencia } from "../resources/utils/date";
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/BirthDayCard.astro[0m:[93m3[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'BirthdayData' is declared but its value is never read.
+
+[7m3[0m import type { BirthdayData } from "../resources/types/form-step";
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/FloatingHearts.astro[0m:[93m13[0m:[93m40[0m - [93mwarning[0m[90m ts(6133): [0m'i' is declared but its value is never read.
+
+[7m13[0m     Array.from({ length: 15 }).map((_, i) => (
+[7m  [0m [93m                                       ~[0m
+
+[96msrc/components/forms/ColorPicker.tsx[0m:[93m9[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'ColorPalette' is declared but its value is never read.
+
+[7m9[0m import type { ColorPalette } from '../../resources/config/colors';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/react/AudioPlayer.tsx[0m:[93m1[0m:[93m35[0m - [93mwarning[0m[90m ts(6133): [0m'useEffect' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useRef, useEffect } from "react";
+[7m [0m [93m                                  ~~~~~~~~~[0m
+[96msrc/components/react/AudioPlayer.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useRef, useEffect } from "react";
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/react/CalendarButton.tsx[0m:[93m22[0m:[93m11[0m - [93mwarning[0m[90m ts(6133): [0m'isDay' is declared but its value is never read.
+
+[7m22[0m     const isDay = current.getDate() === birthDate.getDate();
+[7m  [0m [93m          ~~~~~[0m
+[96msrc/components/react/CalendarButton.tsx[0m:[93m21[0m:[93m11[0m - [93mwarning[0m[90m ts(6133): [0m'isMonth' is declared but its value is never read.
+
+[7m21[0m     const isMonth = current.getMonth() === birthDate.getMonth();
+[7m  [0m [93m          ~~~~~~~[0m
+
+[96msrc/components/react/Chronometer.tsx[0m:[93m5[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'FireworksConfetti' is declared but its value is never read.
+
+[7m5[0m import FireworksConfetti from './FireworksConfetti';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/react/FireworksConfetti.tsx[0m:[93m1[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React from "react";
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/react/FormSteps.tsx[0m:[93m53[0m:[93m45[0m - [91merror[0m[90m ts(2339): [0mProperty 'bgColor' does not exist on type 'never'.
+
+[7m53[0m           if (val.bgColor) items[key] = val.bgColor;
+[7m  [0m [91m                                            ~~~~~~~[0m
+[96msrc/components/react/FormSteps.tsx[0m:[93m53[0m:[93m19[0m - [91merror[0m[90m ts(2339): [0mProperty 'bgColor' does not exist on type 'never'.
+
+[7m53[0m           if (val.bgColor) items[key] = val.bgColor;
+[7m  [0m [91m                  ~~~~~~~[0m
+
+[96msrc/components/react/SecretMessageModal.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useRef, useEffect } from "react";
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/layouts/MainLayout.astro[0m:[93m23[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'classesBg' is declared but its value is never read.
+
+[7m23[0m const classesBg = `absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full ${`bg-${color}`} opacity-20 blur-[100px]`;
+[7m  [0m [93m      ~~~~~~~~~[0m
+
+[96msrc/pages/index.astro[0m:[93m10[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'viaColor' is declared but its value is never read.
+
+[7m10[0m const viaColor = "via-pink-500";
+[7m  [0m [93m      ~~~~~~~~[0m
+[96msrc/pages/index.astro[0m:[93m6[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'date' is declared but its value is never read.
+
+[7m6[0m const date = `${currentYear}-02-28 09:40:00`;
+[7m [0m [93m      ~~~~[0m
+[96msrc/pages/index.astro[0m:[93m2[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'BirthDayCard' is declared but its value is never read.
+
+[7m2[0m import BirthDayCard from "../components/BirthDayCard.astro";
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/preview.astro[0m:[93m94[0m:[93m9[0m - [91merror[0m[90m ts(2322): [0mType '{ children: any[]; xmlns: string; width: string; height: string; viewBox: string; fill: string; stroke: string; strokeWidth: string; strokeLinecap: string; strokeLinejoin: string; }' is not assignable to type 'SVGAttributes'.
+  Property 'strokeWidth' does not exist on type 'SVGAttributes'. Did you mean ''stroke-width''?
+
+[7m94[0m         strokeWidth="2"
+[7m  [0m [91m        ~~~~~~~~~~~[0m
+
+[96msrc/pages/questions.astro[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'FormStep' is declared but its value is never read.
+
+[7m4[0m import { type FormStep } from "../resources/types/form-step";
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/resources/utils/crypto.ts[0m:[93m1[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'secretKey' is declared but its value is never read.
+
+[7m1[0m const secretKey = "clave_secreta";
+[7m [0m [93m      ~~~~~~~~~[0m
+
+Result (37 files): 
+- 3 errors
+- 0 warnings
+- 18 hints
+
+ÔÇëELIFECYCLEÔÇë Command failed with exit code 1.
