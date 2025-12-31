@@ -13,7 +13,16 @@ const data = decryptData ? JSON.parse(decryptData) : {};
 
 console.log("Data of preview", data);
 
-const { color, birthday, message, names, url, ...rest }: BirthdayData = data;
+const {
+  color,
+  birthday,
+  message,
+  names,
+  url,
+  secretMessage,
+  premessage,
+  ...rest
+}: BirthdayData = data;
 
 const { bgColor, textColor, viaColor } = color ?? {};
 
@@ -37,13 +46,26 @@ if (!isBirthdayDay && targetDate.getTime() < current.getTime()) {
 }
 
 const date = format(targetDate, "yyyy-MM-dd");
+
+// SEO / OG Logic
+const pageTitle = isBirthdayDay
+  ? `¡Feliz Cumpleaños ${names}! 🎉`
+  : `Cuenta regresiva para ${names} ⏳`;
+
+const pageDescription = isBirthdayDay
+  ? secretMessage
+    ? "🎁 ¡Hay un mensaje secreto y una sorpresa esperando por ti! Entra para descubrirlo."
+    : (message?.substring(0, 160) ?? "¡Te han enviado una tarjeta especial!")
+  : (premessage ?? `Faltan días para celebrar a ${names}. ¡Mira esta tarjeta!`);
+
+const pageImage = url || "/cumple-logo-icon.png";
 ---
 
 <MainLayout
   color={bgColor}
-  title={`Cumpleaños de ${names}`}
-  description={message}
-  image={url}
+  title={pageTitle}
+  description={pageDescription}
+  image={pageImage}
 >
   <BirthDayCard
     color={viaColor}
@@ -53,6 +75,8 @@ const date = format(targetDate, "yyyy-MM-dd");
     date={date}
     textColor={textColor}
     url={url}
+    secretMessage={secretMessage}
+    premessage={premessage}
     {...rest}
   />
 </MainLayout>
