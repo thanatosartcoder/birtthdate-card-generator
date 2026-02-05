@@ -17,6 +17,7 @@ export type BirthdayData = {
   url: string;
   premessage: string;
   secretMessage?: string;
+  slug?: string;
 };
 
 export type FormStepOptions = {

@@ -4,12 +4,73 @@ import { decrypt } from "../resources/utils/crypto";
 import BirthDayCard from "../components/BirthDayCard.astro";
 import MainLayout from "../layouts/MainLayout.astro";
 import { format } from "date-fns";
+import { supabase } from "../lib/supabase";
+import { slugify } from "../resources/utils/slugify";
 
 const token = Astro.url.searchParams.get("token")! || "";
 
 const decryptData = token ? decrypt(token, import.meta.env.SECRET_KEY) : "";
-
 const data = decryptData ? JSON.parse(decryptData) : {};
+
+// Automatic Migration Logic
+if (token && data && data.names) {
+  try {
+    // 1. Check if this card already exists in Supabase
+    // We use the data object (excluding any potentially new fields) to check containment
+    const cleanData = { ...data };
+    delete cleanData.slug; // Ensure we don't look for slug in data if it wasn't there
+
+    const { data: existing } = await supabase
+      .from("cards")
+      .select("slug")
+      .contains("data", cleanData)
+      .limit(1)
+      .maybeSingle();
+
+    if (existing) {
+      // Card exists, redirect to it
+      return Astro.redirect(`/card/${existing.slug}`);
+    } else {
+      // Card doesn't exist, create it
+      const year = new Date().getFullYear();
+      const baseSlug = `${slugify(data.names)}-${year}`;
+      let finalSlug = baseSlug;
+
+      // Attempt insert
+      // We first try the base slug. If it fails (constraint), we try with random suffix.
+
+      // Note: To handle unique constraint race-conditions purely one-shot is hard without retry.
+      // We'll simplistic check or just try/catch insert.
+      // Let's Check if slug exists to avoid error log noise.
+      const { data: slugCheck } = await supabase
+        .from("cards")
+        .select("id")
+        .eq("slug", finalSlug)
+        .maybeSingle();
+
+      if (slugCheck) {
+        finalSlug = `${baseSlug}-${Math.random().toString(36).substring(2, 6)}`;
+      }
+
+      // Add slug to data and insert
+      data.slug = finalSlug;
+
+      const { error } = await supabase.from("cards").insert({
+        slug: finalSlug,
+        data: data,
+      });
+
+      if (!error) {
+        return Astro.redirect(`/card/${finalSlug}`);
+      } else {
+        console.error("Migration Error (Insert):", error);
+      }
+    }
+  } catch (error) {
+    console.error("Migration Error:", error);
+    // Proceed to render preview normally as fallback
+  }
+}
 
 console.log("Data of preview", data);
 
@@ -38,7 +99,7 @@ const isBirthdayDay = isMonth && isDay;
 let targetDate = new Date(
   current.getFullYear(),
   birthDate.getMonth(),
-  birthDate.getDate()
+  birthDate.getDate(),
 );
 
 if (!isBirthdayDay && targetDate.getTime() < current.getTime()) {

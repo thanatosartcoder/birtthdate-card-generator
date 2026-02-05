@@ -55,11 +55,11 @@ const FormSteps: React.FC<Props> = ({
       });
 
       return items;
-    }
+    },
   );
 
   const handleSubmit = async (
-    event: FormEvent<HTMLFormElement> | undefined
+    event: FormEvent<HTMLFormElement> | undefined,
   ) => {
     event?.preventDefault();
     const data = new FormData(event?.currentTarget);
@@ -92,7 +92,7 @@ const FormSteps: React.FC<Props> = ({
           if (field.type === "date" && fieldValue) {
             fieldValue = format(
               new Date(`${fieldValue} 00:00:00`),
-              "yyyy-MM-dd"
+              "yyyy-MM-dd",
             );
           }
         }
@@ -102,6 +102,39 @@ const FormSteps: React.FC<Props> = ({
           value: fieldValue,
         };
       });
+
+      // Special handling for final step (Slug)
+      if (currentStep.name === "slug-step") {
+        const slug = selectedItems["slug"];
+        if (!slug) {
+          alert("Por favor escribe una URL personalizada");
+          return;
+        }
+
+        try {
+          const res = await fetch("/api/finalize-card.json", {
+            method: "POST",
+            body: JSON.stringify({
+              token,
+              slug,
+            }),
+          });
+
+          const result = await res.json();
+
+          if (!res.ok) {
+            alert(result.error || "Error al guardar la tarjeta");
+            return;
+          }
+
+          window.location.href = result.url;
+          return;
+        } catch (error) {
+          console.error(error);
+          alert("Error de conexión");
+          return;
+        }
+      }
 
       response = await fetch("/api/save-form.json", {
         method: "POST",

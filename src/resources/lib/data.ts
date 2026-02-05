@@ -146,4 +146,17 @@ export const steps: FormStep[] = [
       },
     ],
   },
+  {
+    question: "Finalizar y Generar",
+    type: "multi-field",
+    name: "slug-step",
+    fields: [
+      {
+        name: "slug",
+        label: "Nombre personalizado de la URL (ej: natii-2026)",
+        type: "text",
+        placeholder: "natii-2026",
+      },
+    ],
+  },
 ];

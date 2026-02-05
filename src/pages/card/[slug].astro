@@ -1,0 +1,106 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import BirthDayCard from "../../components/BirthDayCard.astro";
+import { supabase } from "../../lib/supabase";
+import type { BirthdayData } from "../../resources/types/form-step";
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect("/");
+}
+
+const { data: cardData, error } = await supabase
+  .from("cards")
+  .select("data")
+  .eq("slug", slug)
+  .single();
+
+if (error || !cardData) {
+  console.error("Card not found or error:", error);
+  return Astro.redirect("/404");
+}
+
+const data = cardData.data as BirthdayData;
+
+const { birthday, names, color, message, url, premessage, secretMessage } =
+  data;
+
+const birthDate = new Date(`${birthday} 00:00:00`);
+const current = new Date();
+
+// Check if today is the birthday
+const isMonth = current.getMonth() === birthDate.getMonth();
+const isDay = current.getDate() === birthDate.getDate();
+const isBirthdayDay = isMonth && isDay;
+
+// Calculate target date for countdown (next birthday)
+let targetDate = new Date(
+  current.getFullYear(),
+  birthDate.getMonth(),
+  birthDate.getDate(),
+);
+
+if (!isBirthdayDay && targetDate.getTime() < current.getTime()) {
+  targetDate.setFullYear(current.getFullYear() + 1);
+}
+
+// Format date for Chronometer
+import { format } from "date-fns";
+const dateFormatted = format(targetDate, "yyyy-MM-dd");
+
+// SEO / OG Logic
+const pageTitle = isBirthdayDay
+  ? `¡Feliz Cumpleaños ${names}! 🎉`
+  : `Cuenta regresiva para ${names} ⏳`;
+
+const pageDescription = isBirthdayDay
+  ? secretMessage
+    ? "🎁 ¡Hay un mensaje secreto y una sorpresa esperando por ti! Entra para descubrirlo."
+    : (message?.substring(0, 160) ?? "¡Te han enviado una tarjeta especial!")
+  : (premessage ?? `Faltan días para celebrar a ${names}. ¡Mira esta tarjeta!`);
+
+const pageImage = url || "/cumple-logo-icon.png";
+---
+
+<MainLayout
+  title={pageTitle}
+  description={pageDescription}
+  color={color.bgColor}
+  image={pageImage}
+>
+  <BirthDayCard
+    date={dateFormatted}
+    name={names}
+    color={color.viaColor}
+    textColor={color.textColor}
+    message={message}
+    url={url}
+    premessage={premessage}
+    secretMessage={secretMessage}
+    isBirthdayDay={isBirthdayDay}
+  />
+
+  <div class="fixed top-4 right-4 z-50">
+    <a
+      href="/"
+      class="bg-white/80 backdrop-blur-sm border border-pink-200 text-pink-600 px-4 py-2 rounded-full shadow-lg hover:scale-105 transition-transform flex items-center gap-2 font-medium"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M5 12h14"></path>
+        <path d="M12 5v14"></path>
+      </svg>
+      Crear Nueva
+    </a>
+  </div>
+</MainLayout>
